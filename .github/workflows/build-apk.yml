@@ -3,7 +3,7 @@ name: Build Flet APK
 on:
   push:
     branches: [ main, master ]
-  workflow_dispatch:  # позволяет запускать вручную
+  workflow_dispatch:
 
 jobs:
   build-apk:
@@ -32,16 +32,20 @@ jobs:
         
         # Создаем минимальный flet.yaml если его нет
         if [ ! -f "flet.yaml" ]; then
-          cat > flet.yaml << YAML
-name: SectorPractic
-version: 1.0.0
-description: Job and internship portal
-entrypoint: app.py
-requirements:
-  - requests
-  - flet
-YAML
+          echo "name: SectorPractic" > flet.yaml
+          echo "version: 1.0.0" >> flet.yaml
+          echo "description: Job and internship portal" >> flet.yaml
+          echo "entrypoint: app.py" >> flet.yaml
+          echo "requirements:" >> flet.yaml
+          echo "  - requests" >> flet.yaml
+          echo "  - flet" >> flet.yaml
         fi
+        
+        # Показываем содержимое для отладки
+        echo "Files in repository:"
+        ls -la
+        echo "--- flet.yaml content ---"
+        cat flet.yaml
     
     - name: Build APK
       run: |
