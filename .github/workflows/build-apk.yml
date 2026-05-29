@@ -2,85 +2,62 @@ name: Build Flet APK
 
 on:
   push:
-    branches: [ main, master ]
+    branches: [ main ]
   workflow_dispatch:
 
 jobs:
-  build-apk:
+  build:
     runs-on: ubuntu-latest
     
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v4
+    - uses: actions/checkout@v4
     
     - name: Setup Python
       uses: actions/setup-python@v5
       with:
         python-version: '3.11'
     
-    - name: Install dependencies
+    - name: Setup Java
+      uses: actions/setup-java@v4
+      with:
+        distribution: 'temurin'
+        java-version: '17'
+    
+    - name: Setup Flutter
+      uses: subosito/flutter-action@v2
+      with:
+        flutter-version: '3.16.0'
+        channel: 'stable'
+    
+    - name: Setup Android SDK
+      uses: android-actions/setup-android@v3
+    
+    - name: Accept Android Licenses
       run: |
-        python -m pip install --upgrade pip
+        yes | sdkmanager --licenses
+    
+    - name: Install Flet
+      run: |
         pip install flet requests
     
-    - name: Prepare app file
+    - name: Prepare app
       run: |
         if [ -f "main.py" ]; then
           cp main.py app.py
         fi
         
-        # Создаем flet.yaml
         cat > flet.yaml << EOF
 name: SectorPractic
 version: 1.0.0
-description: Job and internship portal
 entrypoint: app.py
-requirements:
-  - requests
-  - flet
 EOF
     
-    - name: Setup Flutter
+    - name: Build APK
       run: |
-        # Устанавливаем Flutter заранее, чтобы избежать интерактивного запроса
-        git clone https://github.com/flutter/flutter.git --depth 1 -b stable
-        echo "$(pwd)/flutter/bin" >> $GITHUB_PATH
+        yes | flet build apk
     
-    - name: Accept Android Licenses
-      run: |
-        # Устанавливаем Android SDK и принимаем лицензии
-        sudo apt-get update
-        sudo apt-get install -y android-sdk
-        echo "y" | $ANDROID_HOME/tools/bin/sdkmanager --licenses || true
-    
-    - name: Build APK with auto-confirmation
-      run: |
-        # Автоматически отвечаем "y" на все вопросы Flet
-        echo "y" | flet build apk --verbose || true
-    
-    - name: Find and upload APK
-      run: |
-        # Ищем APK файл
-        find . -name "*.apk" -type f
-        # Копируем в известное место если найден
-        if [ -f "build/apk/app-release.apk" ]; then
-          mkdir -p artifacts
-          cp build/apk/app-release.apk artifacts/
-        elif [ -f "build/apk/*.apk" ]; then
-          mkdir -p artifacts
-          cp build/apk/*.apk artifacts/
-        fi
-    
-    - name: Upload APK artifact
+    - name: Upload APK
       uses: actions/upload-artifact@v4
       with:
         name: SectorPractic-App
-        path: artifacts/*.apk
-        if-no-files-found: warn
-    
-    - name: Upload build directory if failed
-      if: failure()
-      uses: actions/upload-artifact@v4
-      with:
-        name: build-directory
-        path: build/
+        path: build/apk/*.apk
