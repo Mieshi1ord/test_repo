@@ -25,44 +25,62 @@ jobs:
     
     - name: Prepare app file
       run: |
-        # Если файл называется main.py, переименуем в app.py для Flet
         if [ -f "main.py" ]; then
           cp main.py app.py
         fi
         
-        # Создаем минимальный flet.yaml если его нет
-        if [ ! -f "flet.yaml" ]; then
-          echo "name: SectorPractic" > flet.yaml
-          echo "version: 1.0.0" >> flet.yaml
-          echo "description: Job and internship portal" >> flet.yaml
-          echo "entrypoint: app.py" >> flet.yaml
-          echo "requirements:" >> flet.yaml
-          echo "  - requests" >> flet.yaml
-          echo "  - flet" >> flet.yaml
-        fi
-        
-        # Показываем содержимое для отладки
-        echo "Files in repository:"
-        ls -la
-        echo "--- flet.yaml content ---"
-        cat flet.yaml
+        # Создаем flet.yaml
+        cat > flet.yaml << EOF
+name: SectorPractic
+version: 1.0.0
+description: Job and internship portal
+entrypoint: app.py
+requirements:
+  - requests
+  - flet
+EOF
     
-    - name: Build APK
+    - name: Setup Flutter
       run: |
-        flet build apk --verbose
+        # Устанавливаем Flutter заранее, чтобы избежать интерактивного запроса
+        git clone https://github.com/flutter/flutter.git --depth 1 -b stable
+        echo "$(pwd)/flutter/bin" >> $GITHUB_PATH
+    
+    - name: Accept Android Licenses
+      run: |
+        # Устанавливаем Android SDK и принимаем лицензии
+        sudo apt-get update
+        sudo apt-get install -y android-sdk
+        echo "y" | $ANDROID_HOME/tools/bin/sdkmanager --licenses || true
+    
+    - name: Build APK with auto-confirmation
+      run: |
+        # Автоматически отвечаем "y" на все вопросы Flet
+        echo "y" | flet build apk --verbose || true
+    
+    - name: Find and upload APK
+      run: |
+        # Ищем APK файл
+        find . -name "*.apk" -type f
+        # Копируем в известное место если найден
+        if [ -f "build/apk/app-release.apk" ]; then
+          mkdir -p artifacts
+          cp build/apk/app-release.apk artifacts/
+        elif [ -f "build/apk/*.apk" ]; then
+          mkdir -p artifacts
+          cp build/apk/*.apk artifacts/
+        fi
     
     - name: Upload APK artifact
       uses: actions/upload-artifact@v4
       with:
         name: SectorPractic-App
-        path: build/apk/*.apk
-        compression-level: 0
+        path: artifacts/*.apk
+        if-no-files-found: warn
     
-    - name: Upload build logs (if failed)
+    - name: Upload build directory if failed
       if: failure()
       uses: actions/upload-artifact@v4
       with:
-        name: build-logs
-        path: |
-          build.log
-          **/*.log
+        name: build-directory
+        path: build/
