@@ -1,0 +1,34 @@
+usage: flet [-h] [--version]
+            {create,run,build,debug,pack,publish,serve,emulators,devices,doctor}
+            ...
+
+positional arguments:
+  {create,run,build,debug,pack,publish,serve,emulators,devices,doctor}
+    create              Create a new Flet project using a predefined template.
+                        It sets up the initial directory structure, metadata,
+                        and required files to help you get started quickly.
+    run                 Run a Flet application in hot reload mode.
+    build               Build a Flet Python app into a platform-specific
+                        executable or installable bundle. It supports building
+                        for desktop (macOS, Linux, Windows), web, Android
+                        (APK/AAB), and iOS (IPA and simulator .app), with a
+                        wide range of customization options for metadata,
+                        assets, splash screens, and signing. Detailed guide
+                        with usage examples: https://flet.dev/docs/publish
+    debug               Run a Flet Python app in debug mode on a specified
+                        platform (desktop, web, mobile).
+    pack                Package a Flet application into a standalone desktop
+                        executable or app bundle using PyInstaller.
+    publish             Compile and package a Flet app as a standalone static
+                        web application.
+    serve               Serve static files from a directory with a lightweight
+                        web server, optionally adding WebAssembly-related
+                        headers for Flet web apps.
+    emulators           List, create, and launch available emulators.
+    devices             List all connected iOS and Android devices.
+    doctor              Get information about the system and environment
+                        setup.
+
+options:
+  -h, --help            show this help message and exit
+  --version, -V         show program's version number and exit

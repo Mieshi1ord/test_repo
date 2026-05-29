@@ -1,0 +1,84 @@
+[?25l[32m( ●    )[0m [1;34mInitializing apk build...[0m[2K[2;36m[12:06:12][0m[2;36m [0m[2;32mRun subprocess: [0m[1;2;32m[[0m[2;32m'/home/mieshi/flutter/3.41.7/bin/flutter'[0m[2;32m, [0m[2;32m'--version'[0m[2;32m,   [0m
+[2;36m           [0m[2;32m'--no-version-check'[0m[2;32m, [0m[2;32m'--suppress-analytics'[0m[1;2;32m][0m[2;32m                              [0m
+[32m( ●    )[0m [1;34mInitializing apk build...[0m[2K[2;36m          [0m[2;36m [0m[90mFlutter executable: [0m[35m/home/mieshi/flutter/3.41.7/bin/[0m[95mflutter[0m[90m                [0m
+[32m(  ●   )[0m [1;34mInitializing apk build...[0m[2K[2;36m          [0m[2;36m [0m[90mDart executable: [0m[35m/home/mieshi/flutter/3.41.7/bin/[0m[95mdart[0m[90m                      [0m
+[32m(  ●   )[0m [1;34mInitializing apk build...[0m[2K[2;36m          [0m[2;36m [0m[90mJDK installed at [0m[35m/home/mieshi/java/[0m[95m17.0.13+11[0m[90m                              [0m
+[32m(  ●   )[0m [1;34mInstalling JDK...[0m[2K[2;36m          [0m[2;36m [0m[2;32mConfiguring Flutter's path to JDK                                          [0m
+[32m(  ●   )[0m [1;34mInstalling JDK...[0m[2K[2;36m          [0m[2;36m [0m[2;32mRun subprocess: [0m[1;2;32m[[0m[2;32m'/home/mieshi/flutter/3.41.7/bin/flutter'[0m[2;32m, [0m[2;32m'config'[0m[2;32m,      [0m
+[2;36m           [0m[2;32m'--no-version-check'[0m[2;32m, [0m[2;32m'--suppress-analytics'[0m[2;32m,                              [0m
+[2;36m           [0m[2;32m'--jdk-[0m[2;32mdir[0m[2;32m=/home/mieshi/java/17.0.13+11'[0m[1;2;32m][0m[2;32m                                  [0m
+[32m(  ●   )[0m [1;34mInstalling JDK...[0m[2K[2;36m          [0m[2;36m [0m[90mSetting [0m[32m"jdk-dir"[0m[90m value to [0m[32m"/home/mieshi/java/17.0.13+11"[0m[90m.                 [0m
+[32m(   ●  )[0m [1;34mInstalling JDK...[0m[2K[2;36m          [0m[2;36m [0m[90m                                                                           [0m
+[32m(   ●  )[0m [1;34mInstalling JDK...[0m[2K[2;36m          [0m[2;36m [0m[90mYou may need to restart any open editors for them to read new settings.    [0m
+[32m(   ●  )[0m [1;34mInstalling JDK...[0m[2K[2;36m          [0m[2;36m [0m[1;32mJDK installed ✅                                                           [0m
+[32m(   ●  )[0m [1;34mInstalling JDK...[0m[2K[2;36m          [0m[2;36m [0m[90mAndroid SDK installation found at [0m[35m/home/mieshi/Android/[0m[95mSdk[0m[90m                 [0m
+[32m(   ●  )[0m [1;34mInstalling Android SDK...[0m[2K[2;36m          [0m[2;36m [0m[90mAndroid SDK package [0m[32m"cmdline-tools;latest"[0m[90m is already installed            [0m
+[32m(   ●  )[0m [1;34mInstalling Android SDK...[0m[2K[2;36m          [0m[2;36m [0m[90mAndroid SDK package [0m[32m"platform-tools"[0m[90m is already installed                  [0m
+[32m(   ●  )[0m [1;34mInstalling Android SDK...[0m[2K[2;36m          [0m[2;36m [0m[90mAndroid SDK package [0m[32m"platforms;android-35"[0m[90m is already installed            [0m
+[32m(   ●  )[0m [1;34mInstalling Android SDK...[0m[2K[2;36m          [0m[2;36m [0m[90mAndroid SDK package [0m[32m"build-tools;34.0.0"[0m[90m is already installed              [0m
+[32m(   ●  )[0m [1;34mInstalling Android SDK...[0m[2K[2;36m          [0m[2;36m [0m[1;32mAndroid SDK installed ✅                                                   [0m
+[32m(   ●  )[0m [1;34mInstalling Android SDK...[0m[2K[2;36m          [0m[2;36m [0m[2;32mRun subprocess: [0m[1;2;32m[[0m[2;32m'/home/mieshi/flutter/3.41.7/bin/dart'[0m[2;32m, [0m[2;32m'run'[0m[2;32m,            [0m
+[2;36m           [0m[2;32m'--suppress-analytics'[0m[2;32m, [0m[2;32m'serious_python:main'[0m[2;32m, [0m[2;32m'package'[0m[2;32m,                  [0m
+[2;36m           [0m[2;32m'/home/mieshi/Рабочий [0m[2;32m                                                     [0m
+[2;36m           [0m[2;32mстол/Работка/Автора/Мультиворк/ДИПЛОМ/1340647/programma'[0m[2;32m, [0m[2;32m'--platform'[0m[2;32m,    [0m
+[2;36m           [0m[2;32m'Android'[0m[2;32m, [0m[2;32m'-r'[0m[2;32m, [0m[2;32m'-r'[0m[2;32m, [0m[2;32m'-r'[0m[2;32m, [0m[2;32m'/home/mieshi/Рабочий [0m[2;32m                        [0m
+[2;36m           [0m[2;32mстол/Работка/Автора/Мультиворк/ДИПЛОМ/1340647/programma/requirements.txt'[0m[2;32m, [0m
+[2;36m           [0m[2;32m'--exclude'[0m[2;32m, [0m[2;32m'build'[0m[2;32m, [0m[2;32m'--cleanup-packages'[0m[1;2;32m][0m[2;32m                                [0m
+[32m(   ●  )[0m [1;34mPackaging Python app...[0m[2K[32m(    ● )[0m [1;34mPackaging Python app...[0m[2K[2;36m          [0m[2;36m [0m[90mRunning build hooks[0m[33m...[0m[90mRunning build hooks[0m[33m...[0m[90mRunning package command        [0m
+[32m(     ●)[0m [1;34mPackaging Python app...[0m[2K[2;36m          [0m[2;36m [0m[90mExtra PyPi indexes: [0m[1;90m[[0m[4;94mhttps://pypi.flet.dev[0m[1;90m][0m[90m                                [0m
+[32m(     ●)[0m [1;34mPackaging Python app...[0m[2K[2;36m          [0m[2;36m [0m[90mCreated temp directory: [0m[35m/tmp/[0m[95mserious_python_tempTJUUHA[0m[90m                     [0m
+[32m(     ●)[0m [1;34mPackaging Python app...[0m[2K[2;36m          [0m[2;36m [0m[90mCopying Python app from [0m[35m/home/mieshi/[0m[95mРабочий[0m[90m                               [0m
+[2;36m           [0m[90mстол/Работка/Автора/Мультиворк/ДИПЛОМ/[0m[1;36m1340647[0m[90m/programma to a temp directory[0m
+[32m(     ●)[0m [1;34mPackaging Python app...[0m[2K[32m(   ●  )[0m [1;34mPackaging Python app...[0m[2K[32m(●     )[0m [1;34mPackaging Python app...[0m[2K[32m(   ●  )[0m [1;34mPackaging Python app...[0m[2K[32m(    ● )[0m [1;34mPackaging Python app...[0m[2K[2;36m[12:06:13][0m[2;36m [0m[90mConfigured Android/arm64-v8a platform with sitecustomize.py                [0m
+[32m(   ●  )[0m [1;34mPackaging Python app...[0m[2K[2;36m          [0m[2;36m [0m[90mInstalling [0m[1;90m[[0m[90m-r, [0m[35m/home/mieshi/[0m[95mРабочий[0m[90m                                       [0m
+[2;36m           [0m[90mстол/Работка/Автора/Мультиворк/ДИПЛОМ/[0m[1;36m1340647[0m[90m/programma/requirements.txt[0m[1;90m][0m[90m  [0m
+[2;36m           [0m[90mwith pip command to [0m[35m/home/mieshi/[0m[95mРабочий[0m[90m                                   [0m
+[2;36m           [0m[90mстол/Работка/Автора/Мультиворк/ДИПЛОМ/[0m[1;36m1340647[0m[90m/programma/build/site-packages[0m
+[2;36m           [0m[90m/arm64-v8a                                                                 [0m
+[32m(   ●  )[0m [1;34mPackaging Python app...[0m[2K[1;31m╭────────────────────────────────────────────────────────────────────────────────────╮[0m
+[1;31m│[0m[1;31m [0m[1;31mError building Flet app - see the log of failed command above.[0m[1;31m                    [0m[1;31m [0m[1;31m│[0m
+[1;31m╰────────────────────────────────────────────────────────────────────────────────────╯[0m
+[32m( ●    )[0m [1;34mRunning Flutter doctor...[0m[2K[1A[2K[1A[2K[1A[2K[2;36m          [0m[2;36m [0m[2;32mRun subprocess: [0m[1;2;32m[[0m[2;32m'/home/mieshi/flutter/3.41.7/bin/flutter'[0m[2;32m, [0m[2;32m'doctor'[0m[2;32m,      [0m
+[2;36m           [0m[2;32m'--no-version-check'[0m[2;32m, [0m[2;32m'--suppress-analytics'[0m[1;2;32m][0m[2;32m                              [0m
+[1;31m╭────────────────────────────────────────────────────────────────────────────────────╮[0m
+[1;31m│[0m[1;31m [0m[1;31mError building Flet app - see the log of failed command above.[0m[1;31m                    [0m[1;31m [0m[1;31m│[0m
+[1;31m╰────────────────────────────────────────────────────────────────────────────────────╯[0m
+[32m( ●    )[0m [1;34mRunning Flutter doctor...[0m[2K[1A[2K[1A[2K[1A[2K[1;31m╭────────────────────────────────────────────────────────────────────────────────────╮[0m
+[1;31m│[0m[1;31m [0m[1;31mError building Flet app - see the log of failed command above.[0m[1;31m                    [0m[1;31m [0m[1;31m│[0m
+[1;31m╰────────────────────────────────────────────────────────────────────────────────────╯[0m
+[32m( ●    )[0m [1;34mRunning Flutter doctor...[0m[2K[1A[2K[1A[2K[1A[2K[1;31m╭────────────────────────────────────────────────────────────────────────────────────╮[0m
+[1;31m│[0m[1;31m [0m[1;31mError building Flet app - see the log of failed command above.[0m[1;31m                    [0m[1;31m [0m[1;31m│[0m
+[1;31m╰────────────────────────────────────────────────────────────────────────────────────╯[0m
+[32m(    ● )[0m [1;34mRunning Flutter doctor...[0m[2K[1A[2K[1A[2K[1A[2K[1;31m╭────────────────────────────────────────────────────────────────────────────────────╮[0m
+[1;31m│[0m[1;31m [0m[1;31mError building Flet app - see the log of failed command above.[0m[1;31m                    [0m[1;31m [0m[1;31m│[0m
+[1;31m╰────────────────────────────────────────────────────────────────────────────────────╯[0m
+[32m(   ●  )[0m [1;34mRunning Flutter doctor...[0m[2K[1A[2K[1A[2K[1A[2K[1;31m╭────────────────────────────────────────────────────────────────────────────────────╮[0m
+[1;31m│[0m[1;31m [0m[1;31mError building Flet app - see the log of failed command above.[0m[1;31m                    [0m[1;31m [0m[1;31m│[0m
+[1;31m╰────────────────────────────────────────────────────────────────────────────────────╯[0m
+[32m(●     )[0m [1;34mRunning Flutter doctor...[0m[2K[1A[2K[1A[2K[1A[2K[1;31m╭────────────────────────────────────────────────────────────────────────────────────╮[0m
+[1;31m│[0m[1;31m [0m[1;31mError building Flet app - see the log of failed command above.[0m[1;31m                    [0m[1;31m [0m[1;31m│[0m
+[1;31m╰────────────────────────────────────────────────────────────────────────────────────╯[0m
+[32m(    ● )[0m [1;34mRunning Flutter doctor...[0m[2K[1A[2K[1A[2K[1A[2K[2;36m[12:06:15][0m[2;36m [0m[2;32mDoctor summary [0m[1;2;32m([0m[2;32mto see all details, run flutter doctor -v[0m[1;2;32m)[0m[2;32m:                [0m
+[2;36m           [0m[1;2;32m[[0m[2;32m✓[0m[1;2;32m][0m[2;32m Flutter [0m[1;2;32m([0m[2;32mChannel stable, [0m[1;2;36m3.41[0m[2;32m.[0m[1;2;36m7[0m[2;32m, on Ubuntu [0m[1;2;36m22.04[0m[2;32m.[0m[1;2;36m5[0m[2;32m LTS                 [0m
+[2;36m           [0m[1;2;36m6.8[0m[2;32m.[0m[1;2;36m0[0m[2;32m-[0m[1;2;36m111[0m[2;32m-generic, locale ru_RU.UTF-[0m[1;2;36m8[0m[1;2;32m)[0m[2;32m                                     [0m
+[2;36m           [0m[1;2;32m[[0m[2;32m✓[0m[1;2;32m][0m[2;32m Android toolchain - develop for Android devices [0m[1;2;32m([0m[2;32mAndroid SDK version   [0m
+[2;36m           [0m[1;2;36m34.0[0m[2;32m.[0m[1;2;36m0[0m[1;2;32m)[0m[2;32m                                                                    [0m
+[2;36m           [0m[1;2;32m[[0m[2;32m✗[0m[1;2;32m][0m[2;32m Chrome - develop for the web [0m[1;2;32m([0m[2;32mCannot find Chrome executable at         [0m
+[2;36m           [0m[2;32mgoogle-chrome[0m[1;2;32m)[0m[2;32m                                                             [0m
+[2;36m           [0m[2;32m    ! Cannot find Chrome. Try setting CHROME_EXECUTABLE to a Chrome        [0m
+[2;36m           [0m[2;32mexecutable.                                                                [0m
+[2;36m           [0m[1;2;32m[[0m[2;32m✓[0m[1;2;32m][0m[2;32m Linux toolchain - develop for Linux desktop                            [0m
+[2;36m           [0m[1;2;32m[[0m[2;32m✓[0m[1;2;32m][0m[2;32m Connected device [0m[1;2;32m([0m[1;2;36m1[0m[2;32m available[0m[1;2;32m)[0m[2;32m                                         [0m
+[2;36m           [0m[1;2;32m[[0m[2;32m✓[0m[1;2;32m][0m[2;32m Network resources                                                      [0m
+[2;36m           [0m[2;32m                                                                           [0m
+[2;36m           [0m[2;32m! Doctor found issues in [0m[1;2;36m1[0m[2;32m category.                                       [0m
+[2;36m           [0m[2;32m                                                                           [0m
+[1;31m╭────────────────────────────────────────────────────────────────────────────────────╮[0m
+[1;31m│[0m[1;31m [0m[1;31mError building Flet app - see the log of failed command above.[0m[1;31m                    [0m[1;31m [0m[1;31m│[0m
+[1;31m╰────────────────────────────────────────────────────────────────────────────────────╯[0m
+[32m(    ● )[0m [1;34mRunning Flutter doctor...[0m[2K[1A[2K[1A[2K[1A[2K[1;31m╭────────────────────────────────────────────────────────────────────────────────────╮[0m
+[1;31m│[0m[1;31m [0m[1;31mError building Flet app - see the log of failed command above.[0m[1;31m                    [0m[1;31m [0m[1;31m│[0m
+[1;31m╰────────────────────────────────────────────────────────────────────────────────────╯[0m[2K[1A[2K[1A[2K[1;31m╭────────────────────────────────────────────────────────────────────────────────────╮[0m
+[1;31m│[0m[1;31m [0m[1;31mError building Flet app - see the log of failed command above.[0m[1;31m                    [0m[1;31m [0m[1;31m│[0m
+[1;31m╰────────────────────────────────────────────────────────────────────────────────────╯[0m
+[?25h
