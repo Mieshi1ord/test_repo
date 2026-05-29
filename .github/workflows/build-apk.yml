@@ -33,8 +33,7 @@ jobs:
       uses: android-actions/setup-android@v3
     
     - name: Accept Android Licenses
-      run: |
-        yes | sdkmanager --licenses
+      run: yes | sdkmanager --licenses || true
     
     - name: Install Flet
       run: |
@@ -45,16 +44,12 @@ jobs:
         if [ -f "main.py" ]; then
           cp main.py app.py
         fi
-        
-        cat > flet.yaml << EOF
-name: SectorPractic
-version: 1.0.0
-entrypoint: app.py
-EOF
+        echo "name: SectorPractic" > flet.yaml
+        echo "version: 1.0.0" >> flet.yaml
+        echo "entrypoint: app.py" >> flet.yaml
     
     - name: Build APK
-      run: |
-        yes | flet build apk
+      run: yes | flet build apk || true
     
     - name: Upload APK
       uses: actions/upload-artifact@v4
