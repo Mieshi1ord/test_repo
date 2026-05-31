@@ -3,8 +3,6 @@ name: Build Flet APK
 on:
   push:
     branches: [ main ]
-  pull_request:
-    branches: [ main ]
   workflow_dispatch:
 
 jobs:
@@ -12,8 +10,7 @@ jobs:
     runs-on: ubuntu-latest
     
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v4
+    - uses: actions/checkout@v4
     
     - name: Setup Python
       uses: actions/setup-python@v5
@@ -30,70 +27,48 @@ jobs:
       uses: subosito/flutter-action@v2
       with:
         flutter-version: '3.16.9'
-        channel: 'stable'
     
     - name: Setup Android SDK
       uses: android-actions/setup-android@v3
     
     - name: Accept Android Licenses
-      run: |
-        yes | sdkmanager --licenses || true
-        yes | sdkmanager "platforms;android-33" || true
+      run: yes | sdkmanager --licenses || true
     
-    - name: Install Flet and dependencies
+    - name: Install Flet
       run: |
-        pip install --upgrade pip
-        pip install flet requests python-socketio
+        pip install flet
     
-    - name: Prepare app for building
+    - name: Prepare app files
       run: |
         # Копируем main.py в app.py
-        if [ -f "main.py" ]; then
-          cp main.py app.py
-        fi
+        cp main.py app.py
         
-        # Создаем flet.yaml
+        # Создаём flet.yaml с секцией requirements
         echo "name: SectorPractic" > flet.yaml
-        echo "description: Сектор практик и трудоустройства" >> flet.yaml
         echo "version: 1.0.0" >> flet.yaml
         echo "entrypoint: app.py" >> flet.yaml
         echo "requirements:" >> flet.yaml
         echo "  - requests" >> flet.yaml
         echo "  - python-socketio" >> flet.yaml
-        echo "android:" >> flet.yaml
-        echo "  package_name: com.sectorpractic.app" >> flet.yaml
-        echo "  icon: null" >> flet.yaml
-        echo "  uses_cleartext_traffic: true" >> flet.yaml
-        echo "  min_sdk_version: 21" >> flet.yaml
-        echo "  target_sdk_version: 33" >> flet.yaml
         
-        # Создаем requirements.txt
-        echo "requests>=2.31.0" > requirements.txt
-        echo "python-socketio>=5.10.0" >> requirements.txt
+        # Создаём обычный requirements.txt для страховки
+        echo "requests" > requirements.txt
+        echo "python-socketio" >> requirements.txt
         
-        # Проверяем содержимое
-        echo "=== flet.yaml ==="
+        # Проверяем, что файлы создались
         cat flet.yaml
-        echo "=== requirements.txt ==="
         cat requirements.txt
     
     - name: Build APK
       run: |
-        flet build apk --verbose
+        # Ключевой момент: устанавливаем зависимости прямо перед сборкой
+        pip install requests python-socketio
         
-        if [ -d "build/apk" ]; then
-          echo "APK built successfully!"
-          ls -la build/apk/
-        else
-          echo "Build directory not found"
-          exit 1
-        fi
+        # Собираем APK (без --verbose для чистоты лога)
+        flet build apk
     
-    - name: Upload APK artifact
+    - name: Upload APK
       uses: actions/upload-artifact@v4
       with:
-        name: SectorPractic-APK
-        path: |
-          build/apk/*.apk
-          build/app/outputs/flutter-apk/*.apk
-        if-no-files-found: warn
+        name: SectorPractic-App
+        path: build/apk/
