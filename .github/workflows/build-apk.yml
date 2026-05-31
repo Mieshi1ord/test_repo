@@ -47,46 +47,40 @@ jobs:
     
     - name: Prepare app for building
       run: |
-        # Копируем main.py в app.py (Flet ожидает app.py)
+        # Копируем main.py в app.py
         if [ -f "main.py" ]; then
           cp main.py app.py
         fi
         
-        # Создаем flet.yaml с правильной конфигурацией
-        cat > flet.yaml << 'EOF'
-name: SectorPractic
-description: Сектор практик и трудоустройства
-version: 1.0.0
-entrypoint: app.py
-requirements:
-  - requests
-  - python-socketio
-android:
-  package_name: com.sectorpractic.app
-  icon: null
-  uses_cleartext_traffic: true
-  min_sdk_version: 21
-  target_sdk_version: 33
-EOF
+        # Создаем flet.yaml
+        echo "name: SectorPractic" > flet.yaml
+        echo "description: Сектор практик и трудоустройства" >> flet.yaml
+        echo "version: 1.0.0" >> flet.yaml
+        echo "entrypoint: app.py" >> flet.yaml
+        echo "requirements:" >> flet.yaml
+        echo "  - requests" >> flet.yaml
+        echo "  - python-socketio" >> flet.yaml
+        echo "android:" >> flet.yaml
+        echo "  package_name: com.sectorpractic.app" >> flet.yaml
+        echo "  icon: null" >> flet.yaml
+        echo "  uses_cleartext_traffic: true" >> flet.yaml
+        echo "  min_sdk_version: 21" >> flet.yaml
+        echo "  target_sdk_version: 33" >> flet.yaml
         
-        # Создаем requirements.txt для явного указания зависимостей
-        cat > requirements.txt << 'EOF'
-requests>=2.31.0
-python-socketio>=5.10.0
-EOF
+        # Создаем requirements.txt
+        echo "requests>=2.31.0" > requirements.txt
+        echo "python-socketio>=5.10.0" >> requirements.txt
         
-        # Проверяем наличие файлов
-        echo "=== Project files ==="
-        ls -la
+        # Проверяем содержимое
         echo "=== flet.yaml ==="
         cat flet.yaml
+        echo "=== requirements.txt ==="
+        cat requirements.txt
     
     - name: Build APK
       run: |
-        # Сборка APK
         flet build apk --verbose
         
-        # Проверяем результат сборки
         if [ -d "build/apk" ]; then
           echo "APK built successfully!"
           ls -la build/apk/
