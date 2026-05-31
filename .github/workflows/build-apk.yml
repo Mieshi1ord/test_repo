@@ -27,6 +27,7 @@ jobs:
       uses: subosito/flutter-action@v2
       with:
         flutter-version: '3.16.9'
+        channel: 'stable'
     
     - name: Setup Android SDK
       uses: android-actions/setup-android@v3
@@ -36,39 +37,52 @@ jobs:
     
     - name: Install Flet
       run: |
-        pip install flet
+        pip install --upgrade pip
+        pip install flet requests python-socketio
     
     - name: Prepare app files
       run: |
         # Копируем main.py в app.py
         cp main.py app.py
         
-        # Создаём flet.yaml с секцией requirements
+        # Создаём flet.yaml
         echo "name: SectorPractic" > flet.yaml
         echo "version: 1.0.0" >> flet.yaml
         echo "entrypoint: app.py" >> flet.yaml
         echo "requirements:" >> flet.yaml
         echo "  - requests" >> flet.yaml
         echo "  - python-socketio" >> flet.yaml
+        echo "android:" >> flet.yaml
+        echo "  package_name: com.sectorpractic.app" >> flet.yaml
+        echo "  uses_cleartext_traffic: true" >> flet.yaml
         
-        # Создаём обычный requirements.txt для страховки
+        # Создаём requirements.txt
         echo "requests" > requirements.txt
         echo "python-socketio" >> requirements.txt
         
-        # Проверяем, что файлы создались
+        # Проверяем файлы
+        echo "=== flet.yaml ==="
         cat flet.yaml
+        echo "=== requirements.txt ==="
         cat requirements.txt
     
     - name: Build APK
+      env:
+        FLUTTER_ROOT: /opt/hostedtoolcache/flutter
       run: |
-        # Ключевой момент: устанавливаем зависимости прямо перед сборкой
-        pip install requests python-socketio
+        # Устанавливаем переменную для автоматического подтверждения
+        export FLET_YES=1
+        export YES=1
         
-        # Собираем APK (без --verbose для чистоты лога)
-        flet build apk
+        # Собираем APK с автоматическим подтверждением
+        echo "y" | flet build apk --yes || flet build apk -y || expect -c 'spawn flet build apk; expect "Proceed?" {send "y\r"}; interact' || yes | flet build apk
     
     - name: Upload APK
+      if: always()
       uses: actions/upload-artifact@v4
       with:
         name: SectorPractic-App
-        path: build/apk/
+        path: |
+          build/apk/*.apk
+          build/app/outputs/flutter-apk/*.apk
+        if-no-files-found: warn
