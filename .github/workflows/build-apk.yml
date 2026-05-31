@@ -1,9 +1,8 @@
-cat > .github/workflows/build.yml << 'EOF'
 name: Build APK
 
 on:
   push:
-    branches: [ main, master ]
+    branches: [ main ]
   workflow_dispatch:
 
 jobs:
@@ -38,7 +37,7 @@ jobs:
     - name: Install Flet
       run: pip install flet
     
-    - name: Prepare app
+    - name: Build APK
       run: |
         cp main.py app.py
         echo "name: SectorPractic" > flet.yaml
@@ -47,15 +46,10 @@ jobs:
         echo "requirements:" >> flet.yaml
         echo "  - requests" >> flet.yaml
         echo "  - python-socketio" >> flet.yaml
-        cat requirements.txt 2>/dev/null || echo "requests" > requirements.txt
-    
-    - name: Build APK
-      run: |
-        yes | flet build apk || yes | flet build apk
+        yes | flet build apk
     
     - name: Upload APK
       uses: actions/upload-artifact@v4
       with:
         name: SectorPractic-APK
-        path: build/apk/*.apk
-EOF
+        path: build/apk/
