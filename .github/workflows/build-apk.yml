@@ -1,7 +1,12 @@
+cd ~/projects/sector_practic
+
+# Создаём папку
 mkdir -p .github/workflows
 
+# Создаём правильный YAML
 cat > .github/workflows/build.yml << 'EOF'
 name: Build APK
+
 on:
   push:
     branches: [ main ]
@@ -11,50 +16,53 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v4
-    
-    - name: Setup Python
-      uses: actions/setup-python@v5
-      with:
-        python-version: '3.11'
-    
-    - name: Setup Java
-      uses: actions/setup-java@v4
-      with:
-        distribution: 'temurin'
-        java-version: '17'
-    
-    - name: Setup Flutter
-      uses: subosito/flutter-action@v2
-      with:
-        flutter-version: '3.16.9'
-    
-    - name: Setup Android SDK
-      uses: android-actions/setup-android@v3
-    
-    - name: Accept Android Licenses
-      run: yes | sdkmanager --licenses || true
-    
-    - name: Build APK
-      run: |
-        pip install flet
-        cp main.py app.py
-        echo "name: SectorPractic" > flet.yaml
-        echo "version: 1.0.0" >> flet.yaml
-        echo "entrypoint: app.py" >> flet.yaml
-        echo "requirements:" >> flet.yaml
-        echo "  - requests" >> flet.yaml
-        echo "  - python-socketio" >> flet.yaml
-        yes | flet build apk
-    
-    - name: Upload APK
-      uses: actions/upload-artifact@v4
-      with:
-        name: SectorPractic-APK
-        path: build/apk/
+      - uses: actions/checkout@v4
+      
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      
+      - name: Setup Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '17'
+      
+      - name: Setup Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version: '3.16.9'
+      
+      - name: Setup Android SDK
+        uses: android-actions/setup-android@v3
+      
+      - name: Accept Android Licenses
+        run: yes | sdkmanager --licenses || true
+      
+      - name: Build APK
+        run: |
+          pip install flet
+          cp main.py app.py
+          echo "name: SectorPractic" > flet.yaml
+          echo "version: 1.0.0" >> flet.yaml
+          echo "entrypoint: app.py" >> flet.yaml
+          echo "requirements:" >> flet.yaml
+          echo "  - requests" >> flet.yaml
+          echo "  - python-socketio" >> flet.yaml
+          yes | flet build apk
+      
+      - name: Upload APK
+        uses: actions/upload-artifact@v4
+        with:
+          name: SectorPractic-APK
+          path: build/apk/
 EOF
+
+# Проверяем файл
+cat .github/workflows/build.yml
 
 # Добавляем и пушим
 git add .github/workflows/build.yml
 git commit -m "Add build workflow"
-git push
+git push origin main
