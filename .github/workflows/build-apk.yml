@@ -3,6 +3,8 @@ name: Build Flet APK
 on:
   push:
     branches: [ main ]
+  pull_request:
+    branches: [ main ]
   workflow_dispatch:
 
 jobs:
@@ -10,7 +12,8 @@ jobs:
     runs-on: ubuntu-latest
     
     steps:
-    - uses: actions/checkout@v4
+    - name: Checkout code
+      uses: actions/checkout@v4
     
     - name: Setup Python
       uses: actions/setup-python@v5
@@ -26,33 +29,77 @@ jobs:
     - name: Setup Flutter
       uses: subosito/flutter-action@v2
       with:
-        flutter-version: '3.16.0'
+        flutter-version: '3.16.9'
         channel: 'stable'
     
     - name: Setup Android SDK
       uses: android-actions/setup-android@v3
     
     - name: Accept Android Licenses
-      run: yes | sdkmanager --licenses || true
-    
-    - name: Install Flet
       run: |
-        pip install flet requests
+        yes | sdkmanager --licenses || true
+        yes | sdkmanager "platforms;android-33" || true
     
-    - name: Prepare app
+    - name: Install Flet and dependencies
       run: |
+        pip install --upgrade pip
+        pip install flet requests python-socketio
+    
+    - name: Prepare app for building
+      run: |
+        # Копируем main.py в app.py (Flet ожидает app.py)
         if [ -f "main.py" ]; then
           cp main.py app.py
         fi
-        echo "name: SectorPractic" > flet.yaml
-        echo "version: 1.0.0" >> flet.yaml
-        echo "entrypoint: app.py" >> flet.yaml
+        
+        # Создаем flet.yaml с правильной конфигурацией
+        cat > flet.yaml << 'EOF'
+name: SectorPractic
+description: Сектор практик и трудоустройства
+version: 1.0.0
+entrypoint: app.py
+requirements:
+  - requests
+  - python-socketio
+android:
+  package_name: com.sectorpractic.app
+  icon: null
+  uses_cleartext_traffic: true
+  min_sdk_version: 21
+  target_sdk_version: 33
+EOF
+        
+        # Создаем requirements.txt для явного указания зависимостей
+        cat > requirements.txt << 'EOF'
+requests>=2.31.0
+python-socketio>=5.10.0
+EOF
+        
+        # Проверяем наличие файлов
+        echo "=== Project files ==="
+        ls -la
+        echo "=== flet.yaml ==="
+        cat flet.yaml
     
     - name: Build APK
-      run: yes | flet build apk || true
+      run: |
+        # Сборка APK
+        flet build apk --verbose
+        
+        # Проверяем результат сборки
+        if [ -d "build/apk" ]; then
+          echo "APK built successfully!"
+          ls -la build/apk/
+        else
+          echo "Build directory not found"
+          exit 1
+        fi
     
-    - name: Upload APK
+    - name: Upload APK artifact
       uses: actions/upload-artifact@v4
       with:
-        name: SectorPractic-App
-        path: build/apk/*.apk
+        name: SectorPractic-APK
+        path: |
+          build/apk/*.apk
+          build/app/outputs/flutter-apk/*.apk
+        if-no-files-found: warn
