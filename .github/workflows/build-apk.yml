@@ -53,70 +53,66 @@ jobs:
         mkdir -p dependencies
         
         # Копируем все необходимые модули
-        cp -r $SITE_PACKAGES/requests dependencies/
-        cp -r $SITE_PACKAGES/urllib3 dependencies/
-        cp -r $SITE_PACKAGES/charset_normalizer dependencies/
-        cp -r $SITE_PACKAGES/idna dependencies/
-        cp -r $SITE_PACKAGES/certifi dependencies/
-        cp -r $SITE_PACKAGES/python_socketio dependencies/
-        cp -r $SITE_PACKAGES/socketio dependencies/
-        cp -r $SITE_PACKAGES/engineio dependencies/
-        cp -r $SITE_PACKAGES/bidict dependencies/
+        cp -r $SITE_PACKAGES/requests dependencies/ 2>/dev/null || true
+        cp -r $SITE_PACKAGES/urllib3 dependencies/ 2>/dev/null || true
+        cp -r $SITE_PACKAGES/charset_normalizer dependencies/ 2>/dev/null || true
+        cp -r $SITE_PACKAGES/idna dependencies/ 2>/dev/null || true
+        cp -r $SITE_PACKAGES/certifi dependencies/ 2>/dev/null || true
+        cp -r $SITE_PACKAGES/python_socketio dependencies/ 2>/dev/null || true
+        cp -r $SITE_PACKAGES/socketio dependencies/ 2>/dev/null || true
+        cp -r $SITE_PACKAGES/engineio dependencies/ 2>/dev/null || true
+        cp -r $SITE_PACKAGES/bidict dependencies/ 2>/dev/null || true
         
-        # Создаём flet.yaml с указанием папки зависимостей
-        cat > flet.yaml << 'EOF'
-name: SectorPractic
-version: 1.0.0
-entrypoint: app.py
-packages:
-  - ./dependencies
-EOF
-        
-        # Альтернативный flet.yaml с requirements
-        cat > flet.yaml << 'EOF'
-name: SectorPractic
-version: 1.0.0
-entrypoint: app.py
-requirements:
-  - requests
-  - python-socketio
-  - urllib3
-  - certifi
-  - charset-normalizer
-  - idna
-EOF
+        # Создаём flet.yaml с requirements
+        echo "name: SectorPractic" > flet.yaml
+        echo "version: 1.0.0" >> flet.yaml
+        echo "entrypoint: app.py" >> flet.yaml
+        echo "requirements:" >> flet.yaml
+        echo "  - requests" >> flet.yaml
+        echo "  - python-socketio" >> flet.yaml
+        echo "  - urllib3" >> flet.yaml
+        echo "  - certifi" >> flet.yaml
+        echo "  - charset-normalizer" >> flet.yaml
+        echo "  - idna" >> flet.yaml
         
         # Создаём requirements.txt со всеми зависимостями
-        cat > requirements.txt << 'EOF'
-requests>=2.31.0
-urllib3>=2.0.0
-certifi>=2023.0.0
-charset-normalizer>=3.0.0
-idna>=3.0.0
-python-socketio>=5.10.0
-EOF
+        echo "requests>=2.31.0" > requirements.txt
+        echo "urllib3>=2.0.0" >> requirements.txt
+        echo "certifi>=2023.0.0" >> requirements.txt
+        echo "charset-normalizer>=3.0.0" >> requirements.txt
+        echo "idna>=3.0.0" >> requirements.txt
+        echo "python-socketio>=5.10.0" >> requirements.txt
         
         # Проверяем содержимое
-        ls -la
+        echo "=== flet.yaml ==="
         cat flet.yaml
+        echo "=== requirements.txt ==="
+        cat requirements.txt
+        echo "=== Dependencies folder ==="
+        ls -la dependencies/ || echo "No dependencies folder"
     
-    - name: Build APK with verbose output
+    - name: Build APK
       run: |
-        # Пробуем разные способы сборки
-        yes | flet build apk --verbose || \
-        yes | flet build apk --no-rich-output || \
-        yes | flet build apk
+        yes | flet build apk --verbose
     
     - name: Debug - Check if dependencies were included
       run: |
-        # Проверяем, есть ли requests в собранном APK
         if [ -f "build/apk/app.apk" ]; then
           echo "APK found! Checking contents..."
           unzip -l build/apk/app.apk | grep -i "requests" || echo "Requests not found in APK"
+        elif [ -f "build/apk/SectorPractic.apk" ]; then
+          echo "APK found! Checking contents..."
+          unzip -l build/apk/SectorPractic.apk | grep -i "requests" || echo "Requests not found in APK"
+        else
+          echo "APK file not found"
+          find build -name "*.apk" 2>/dev/null || echo "No APK files found"
         fi
     
     - name: Upload APK
       uses: actions/upload-artifact@v4
       with:
         name: SectorPractic-App
-        path: build/apk/*.apk
+        path: |
+          build/apk/*.apk
+          build/app/outputs/flutter-apk/*.apk
+        if-no-files-found: warn
