@@ -35,54 +35,88 @@ jobs:
     - name: Accept Android Licenses
       run: yes | sdkmanager --licenses || true
     
-    - name: Install Flet
+    - name: Install Flet and dependencies
       run: |
         pip install --upgrade pip
         pip install flet requests python-socketio
     
-    - name: Prepare app files
+    - name: Prepare app with dependencies
       run: |
         # Копируем main.py в app.py
         cp main.py app.py
         
-        # Создаём flet.yaml
-        echo "name: SectorPractic" > flet.yaml
-        echo "version: 1.0.0" >> flet.yaml
-        echo "entrypoint: app.py" >> flet.yaml
-        echo "requirements:" >> flet.yaml
-        echo "  - requests" >> flet.yaml
-        echo "  - python-socketio" >> flet.yaml
-        echo "android:" >> flet.yaml
-        echo "  package_name: com.sectorpractic.app" >> flet.yaml
-        echo "  uses_cleartext_traffic: true" >> flet.yaml
+        # Находим путь к установленным модулям
+        SITE_PACKAGES=$(python -c "import site; print(site.getsitepackages()[0])")
+        echo "Site packages: $SITE_PACKAGES"
         
-        # Создаём requirements.txt
-        echo "requests" > requirements.txt
-        echo "python-socketio" >> requirements.txt
+        # Создаём папку для зависимостей
+        mkdir -p dependencies
         
-        # Проверяем файлы
-        echo "=== flet.yaml ==="
+        # Копируем все необходимые модули
+        cp -r $SITE_PACKAGES/requests dependencies/
+        cp -r $SITE_PACKAGES/urllib3 dependencies/
+        cp -r $SITE_PACKAGES/charset_normalizer dependencies/
+        cp -r $SITE_PACKAGES/idna dependencies/
+        cp -r $SITE_PACKAGES/certifi dependencies/
+        cp -r $SITE_PACKAGES/python_socketio dependencies/
+        cp -r $SITE_PACKAGES/socketio dependencies/
+        cp -r $SITE_PACKAGES/engineio dependencies/
+        cp -r $SITE_PACKAGES/bidict dependencies/
+        
+        # Создаём flet.yaml с указанием папки зависимостей
+        cat > flet.yaml << 'EOF'
+name: SectorPractic
+version: 1.0.0
+entrypoint: app.py
+packages:
+  - ./dependencies
+EOF
+        
+        # Альтернативный flet.yaml с requirements
+        cat > flet.yaml << 'EOF'
+name: SectorPractic
+version: 1.0.0
+entrypoint: app.py
+requirements:
+  - requests
+  - python-socketio
+  - urllib3
+  - certifi
+  - charset-normalizer
+  - idna
+EOF
+        
+        # Создаём requirements.txt со всеми зависимостями
+        cat > requirements.txt << 'EOF'
+requests>=2.31.0
+urllib3>=2.0.0
+certifi>=2023.0.0
+charset-normalizer>=3.0.0
+idna>=3.0.0
+python-socketio>=5.10.0
+EOF
+        
+        # Проверяем содержимое
+        ls -la
         cat flet.yaml
-        echo "=== requirements.txt ==="
-        cat requirements.txt
     
-    - name: Build APK
-      env:
-        FLUTTER_ROOT: /opt/hostedtoolcache/flutter
+    - name: Build APK with verbose output
       run: |
-        # Устанавливаем переменную для автоматического подтверждения
-        export FLET_YES=1
-        export YES=1
-        
-        # Собираем APK с автоматическим подтверждением
-        echo "y" | flet build apk --yes || flet build apk -y || expect -c 'spawn flet build apk; expect "Proceed?" {send "y\r"}; interact' || yes | flet build apk
+        # Пробуем разные способы сборки
+        yes | flet build apk --verbose || \
+        yes | flet build apk --no-rich-output || \
+        yes | flet build apk
+    
+    - name: Debug - Check if dependencies were included
+      run: |
+        # Проверяем, есть ли requests в собранном APK
+        if [ -f "build/apk/app.apk" ]; then
+          echo "APK found! Checking contents..."
+          unzip -l build/apk/app.apk | grep -i "requests" || echo "Requests not found in APK"
+        fi
     
     - name: Upload APK
-      if: always()
       uses: actions/upload-artifact@v4
       with:
         name: SectorPractic-App
-        path: |
-          build/apk/*.apk
-          build/app/outputs/flutter-apk/*.apk
-        if-no-files-found: warn
+        path: build/apk/*.apk
